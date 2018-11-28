@@ -1,6 +1,8 @@
 <template>
   <nav id="nav">
-    <router-link v-for="(link, index) in links" :key="`${index}`" :to="`${link.path}`">{{link.text}}</router-link>
+    <router-link v-for="(link, index) in links" :key="`${index}`" :to="`${link.path}`">
+      {{link.text}}
+    </router-link>
   </nav>
 </template>
 
@@ -8,25 +10,42 @@
 export default {
   name: 'Navigation',
   props: {
-    links: Array
-  }
-}
+    links: Array, // [{ text: 'Texto do botão', path:'/Caminho da página' }]
+  },
+};
 </script>
 
 <style scoped lang="scss">
 nav {
   position: fixed;
-  top: 0;
-  height: 40px;
-  line-height: 40px;
-  width: 340px;
-  left: calc(50% - 170px);
+  top: 16px;
+  left: 0px;
+  width: 100%;
+  z-index: 2;
   a {
     font-weight: bold;
-    color: #781AD1;
-    margin: 0 8px;
+    text-decoration: none;
+    text-shadow: #5f5f5f66 1px 1px 1px;
+    color: $theme-color;
+    border: solid $theme-color+ee;
+    border-width: 2px 0;
+    padding: 7px 15px;
+    transition: background-color 1s, color 1s;
+    background: #fff;
+    box-shadow: #2226 2px 3px 3px;
     &.router-link-exact-active {
-      color: #5bcaa7;
+      background: linear-gradient(180deg, transparent, #fff1 50%, transparent 50%), $theme-color;
+      color: #fff;
+    }
+    &:first-child {
+      border-left-width: 2px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+    &:last-child {
+      border-right-width: 2px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
     }
   }
 }

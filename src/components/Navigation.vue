@@ -1,6 +1,6 @@
 <template>
   <nav id="nav">
-    <router-link v-for="(link, index) in links" :key="`${index}`" :to="`${link.path}`">
+    <router-link v-for="(link, index) in links" :key="`${index}`" :to="{name: link.name}">
       {{link.text}}
     </router-link>
   </nav>

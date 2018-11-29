@@ -2,38 +2,41 @@
   <ApolloQuery
     :query="require('../graphql/GetAllStartups.gql')"
     :variables="{ }"
+    tag=""
   >
-    <template slot-scope="{ result: { loading, error, data } }">
-      <!-- Loading startups -->
-      <div v-if="loading" class="loading apollo">
-        <Indicator :type="'loading'" :message="'Carregando Startups'"></Indicator>
-      </div>
-      <!-- Error -->
-      <div v-else-if="error" class="error apollo">
-        <Indicator :type="'error'" :message="'Não foi possível carregar startups'"></Indicator>
-      </div>
-      <!-- Startups loaded -->
-      <div v-else-if="data" id="startups-grid">
-        <div v-for="(startup, index) in data.allStartups" :key="`${index}`">
-          <div class="img">
-            <img v-bind:src="startup.imageUrl" v-bind:alt="startup.name"/>
-          </div>
-          <span class="name">{{startup.name}}</span>
-          <span class="segment">{{startup.Segment.name}}</span>
-          <span class="score">
-            <StaticScore :score="[4, 3, 3, 5]" :title="'Avaliação Média'"></StaticScore>
-          </span>
-          <div class="more">
-            <span class="description">{{startup.description}}</span>
-            <span class="annualReceipt">{{startup.annualReceipt}}</span>
-            <span class="teamCount">{{startup.teamCount}}</span>
+    <template slot-scope="{ result: { error, data }, isLoading }">
+      <transition name="fade"  mode="out-in">
+        <!-- Startups loaded -->
+        <div v-if="data" id="startups-grid" key="grid">
+          <div v-for="(startup, index) in data.allStartups" :key="`${index}`">
+            <div class="img">
+              <img v-bind:src="startup.imageUrl" v-bind:alt="startup.name"/>
+            </div>
+            <span class="name">{{startup.name}}</span>
+            <span class="segment">{{startup.Segment.name}}</span>
+            <span class="score">
+              <StaticScore :score="[4, 3, 3, 5]" :title="'Avaliação Média'"></StaticScore>
+            </span>
+            <div class="more">
+              <span class="description">{{startup.description}}</span>
+              <span class="annualReceipt">{{startup.annualReceipt}}</span>
+              <span class="teamCount">{{startup.teamCount}}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- No results -->
-      <div v-else class="no-result apollo">
-        <Indicator :type="'empty'" :message="'Nenhuma startup carregada'"></Indicator>
-      </div>
+        <!-- Loading startups -->
+        <div v-else-if="isLoading" class="loading apollo"  key="loading">
+          <Indicator type="loading">Carregando Startups :)</Indicator>
+        </div>
+        <!-- Error -->
+        <div v-else-if="error" class="error apollo"  key="error">
+          <Indicator type="error">Não foi possível carregar Startups :(</Indicator>
+        </div>
+        <!-- No results -->
+        <div v-else class="no-result apollo"  key="empty">
+          <Indicator type="empty">Lista de Startups vazia :(</Indicator>
+        </div>
+      </transition>
     </template>
   </ApolloQuery>
 </template>
@@ -105,12 +108,10 @@ export default {
     }
     .segment {
       grid-area: segment;
-      margin-top: 2px;
     }
     .score {
       grid-area: score;
       align-self: end;
-      margin-top: 2px;
     }
     .more {
       display: none;
@@ -119,5 +120,12 @@ export default {
       background-position-x: 0px;
     }
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .6s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

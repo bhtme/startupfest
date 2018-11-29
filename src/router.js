@@ -7,7 +7,7 @@ import Favoritos from './views/Favoritos.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -15,21 +15,27 @@ export default new Router({
       path: '/',
       name: 'inicio',
       component: Inicio,
+      meta: { order: 0 },
     },
     {
       path: '/startups',
       name: 'startups',
       component: Startups,
+      meta: { order: 1 },
     },
     {
       path: '/ranking',
       name: 'ranking',
       component: Ranking,
+      meta: { order: 2 },
     },
     {
       path: '/favoritos',
       name: 'favoritos',
       component: Favoritos,
+      meta: { order: 3 },
     },
   ],
 });
+
+export default router;

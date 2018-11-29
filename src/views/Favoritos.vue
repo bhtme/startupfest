@@ -1,5 +1,20 @@
 <template>
   <div class="favoritos">
-    <h1>Ranking de Favoritos</h1>
+    <Indicator type="empty">
+      Lista de Favoritos vazia :(
+      <br/><br/>
+      <router-link :to="{name: 'startups'}">◀ Encontre as startups</router-link>
+    </Indicator>
   </div>
 </template>
+
+<script>
+import Indicator from '../components/Indicator.vue';
+
+export default {
+  name: 'Favoritos',
+  components: {
+    Indicator,
+  },
+};
+</script>

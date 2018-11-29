@@ -1,5 +1,16 @@
 <template>
   <div class="ranking">
-    <h1>Ranking de Startups</h1>
+    <Indicator type="loading">Carregando Ranking :)</Indicator>
   </div>
 </template>
+
+<script>
+import Indicator from '../components/Indicator.vue';
+
+export default {
+  name: 'Favoritos',
+  components: {
+    Indicator,
+  },
+};
+</script>

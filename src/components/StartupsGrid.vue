@@ -1,56 +1,28 @@
 <template>
-  <ApolloQuery
-    :query="require('../graphql/GetAllStartups.gql')"
-    :variables="{ }"
-    tag=""
-  >
-    <template slot-scope="{ result: { error, data }, isLoading }">
-      <transition name="fade"  mode="out-in">
-        <!-- Startups loaded -->
-        <div v-if="data" id="startups-grid" key="grid">
-          <div v-for="(startup, index) in data.allStartups" :key="`${index}`">
-            <div class="img">
-              <img v-bind:src="startup.imageUrl" v-bind:alt="startup.name"/>
-            </div>
-            <span class="name">{{startup.name}}</span>
-            <span class="segment">{{startup.Segment.name}}</span>
-            <span class="score">
-              <StaticScore :score="[4, 3, 3, 5]" :title="'Avaliação Média'"></StaticScore>
-            </span>
-            <div class="more">
-              <span class="description">{{startup.description}}</span>
-              <span class="annualReceipt">{{startup.annualReceipt}}</span>
-              <span class="teamCount">{{startup.teamCount}}</span>
-            </div>
-          </div>
-        </div>
-        <!-- Loading startups -->
-        <div v-else-if="isLoading" class="loading apollo"  key="loading">
-          <Indicator type="loading">Carregando Startups :)</Indicator>
-        </div>
-        <!-- Error -->
-        <div v-else-if="error" class="error apollo"  key="error">
-          <Indicator type="error">Não foi possível carregar Startups :(</Indicator>
-        </div>
-        <!-- No results -->
-        <div v-else class="no-result apollo"  key="empty">
-          <Indicator type="empty">Lista de Startups vazia :(</Indicator>
-        </div>
-      </transition>
-    </template>
-  </ApolloQuery>
+  <div id="startups-grid">
+    <router-link v-for="(startup, index) in startups"
+     :to="{name: 'startup', params: {name: startup.name}}" :key="`${index}`">
+      <div class="img">
+        <img v-bind:src="startup.imageUrl" v-bind:alt="startup.name"/>
+      </div>
+      <span class="name">{{startup.name}}</span>
+      <span class="segment">{{startup.Segment.name}}</span>
+      <span class="score">
+        <StaticScore :score="[4, 3, 3, 5]" :title="'Avaliação Média'"></StaticScore>
+      </span>
+    </router-link>
+  </div>
 </template>
 
 <script>
-import Indicator from './Indicator.vue';
 import StaticScore from './StaticScore.vue';
 
 export default {
   name: 'StartupsGrid',
   props: {
+    startups: Array,
   },
   components: {
-    Indicator,
     StaticScore,
   },
 };
@@ -63,7 +35,7 @@ export default {
   grid-gap: 20px 20px;
   grid-template-columns: repeat(auto-fit, 290px);
   padding: 0 10px;
-  &>div {
+  &>a {
     border: 1px outset #666;
     padding: 6px;
     background: linear-gradient(60deg, transparent 18%, #fff4 46%, #fff4 54%, transparent 82%)
@@ -79,6 +51,8 @@ export default {
                    "img score"
                    "more more"
                    auto / 120px auto;
+    text-decoration: none;
+    color: #0f0f0f;
     .img {
       grid-area: img;
       border: 1px solid #555;
@@ -113,19 +87,9 @@ export default {
       grid-area: score;
       align-self: end;
     }
-    .more {
-      display: none;
-    }
     &:hover {
       background-position-x: 0px;
     }
   }
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .6s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
 }
 </style>

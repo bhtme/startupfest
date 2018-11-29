@@ -1,14 +1,14 @@
 <template>
   <div class="inicio">
     <img alt="The Startup Fest Logo" src="../assets/logo.svg">
-    <h3>
+    <div id="desc">
       As principais StartUps de São Carlos e região
-      <br/>estão na <b>The Startup Fest - 1ª Edição</b>
-    </h3>
-    <h4>
+      estão na <b>The Startup Fest - 1ª Edição</b>
+    </div>
+    <div id="sub-desc">
       <div id="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
       Avalie e escolha suas favoritas!
-    </h4>
+    </div>
     <br/>
     <router-link to="/startups" id="start">Continuar ⯈</router-link>
   </div>
@@ -18,12 +18,23 @@
   .inicio {
     cursor: default;
   }
+  #desc {
+    max-width: 420px;
+    font-size: 19px;
+    margin: 24px auto 0 auto;
+    padding: 0px 6px;
+  }
+  #sub-desc {
+    font-size: 17px;
+    margin: 20px auto 20px auto;
+  }
   #start {
     background: linear-gradient(40deg, transparent 18%, #fff2 46%, #fff2 54%, transparent 82%)
                 no-repeat, linear-gradient(180deg, transparent, #fff1 50%, transparent 50%),
                 $theme-color;
     background-position-x: -150px;
     padding: 6px 10px;
+    line-height: 50px;
     border-radius: 4px;
     color: #fff;
     font-weight: bold;

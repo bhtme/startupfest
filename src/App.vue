@@ -22,7 +22,7 @@ export default {
     Navigation,
   },
   data() {
-    return { 
+    return {
       transitionName: 'slide-left',
       scrollY: 0,
     };
@@ -30,7 +30,7 @@ export default {
   methods: {
     handleWindowScroll(ev) {
       this.scrollY = ev.pageY;
-    }
+    },
   },
   created() {
     window.addEventListener('scroll', this.handleWindowScroll);
@@ -39,9 +39,9 @@ export default {
     window.removeEventListener('scroll', this.handleWindowScroll);
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.transitionName = to.meta.order < from.meta.order ? 'slide-right' : 'slide-left';
-    }
+    },
   },
 };
 </script>

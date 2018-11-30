@@ -14,13 +14,13 @@
         <a title="Receita Anual">💰 {{startup.annualReceipt}}</a>
       </span>
       <span class="scoreTitle scoreTitle1">Proposta:</span>
-      <StaticScore class="score score1" :score="[Score[0]/Score.nAvals]"></StaticScore>
+      <StaticScore class="score score1" :score="[(Score[0]/Score.nAvals)]"></StaticScore>
       <span class="scoreTitle scoreTitle2">Apresentação:</span>
-      <StaticScore class="score score2" :score="[Score[1]/Score.nAvals]"></StaticScore>
+      <StaticScore class="score score2" :score="[(Score[1]/Score.nAvals)]"></StaticScore>
       <span class="scoreTitle scoreTitle3">Desenvolvimento:</span>
-      <StaticScore class="score score3" :score="[Score[2]/Score.nAvals]"></StaticScore>
+      <StaticScore class="score score3" :score="[(Score[2]/Score.nAvals)]"></StaticScore>
       <div class="voteInp">
-        <select v-if="!avaliado" id="score1" :value="av0">
+        <select v-if="!avaliado" id="score1" v-model="av0">
           <optgroup label="Proposta">
             <option value="1">1 ★</option>
             <option value="2">2 ★★</option>
@@ -29,7 +29,7 @@
             <option value="5">5 ★★★★★</option>
           </optgroup>
         </select>
-        <select v-if="!avaliado" id="score2" :value="av1">
+        <select v-if="!avaliado" id="score2" v-model="av1">
           <optgroup label="Apresentação">
             <option value="1">1 ★</option>
             <option value="2">2 ★★</option>
@@ -38,7 +38,7 @@
             <option value="5">5 ★★★★★</option>
           </optgroup>
         </select>
-        <select v-if="!avaliado" id="score3" :value="av2">
+        <select v-if="!avaliado" id="score3" v-model="av2">
           <optgroup label="Desenvolvimento">
             <option value="1">1 ★</option>
             <option value="2">2 ★★</option>
@@ -73,25 +73,26 @@ export default {
       av1: 5,
       av2: 5,
       avaliado: false,
-      erro: false
+      erro: false,
     }
   },
   created() {
     store.db.collection('startupScore').where('startupName', '==', this.startup.name).onSnapshot(
-      (_) => { this.Score = store.Scores[this.startup.name]; }
+      () => { this.Score = store.Scores[this.startup.name]; }
     );
   },
   methods: {
     avaliar: function() {
       store.db.collection('startupScore').doc(this.Score.docId).update({
-        "score.0": this.Score[0] + this.av0, 
-        "score.1": this.Score[1] + this.av1, 
-        "score.2": this.Score[2] + this.av2,
+        "score.0": (this.Score[0] + Number(this.av0)), 
+        "score.1": (this.Score[1] + Number(this.av1)), 
+        "score.2": (this.Score[2] + Number(this.av2)),
         "nAvals": this.Score.nAvals + 1,
-      }).then(r => {
+      }).then(() => {
         this.avaliado = true;
         this.erro = false;
-      }).catch(err => {
+      })
+      .catch(() => {
         this.erro = true;
       });
     },

@@ -35,7 +35,7 @@ export default {
       query: QUERY_GETALLSTARTUPS,
       result({data, loading}) {
         if(!loading) {
-          let startups = data.allStartups;
+          const startups = data.allStartups;
           for(var i = 0, len = startups.length; i < len; i++) {
             let startup = startups[i];
             this.$apollo.mutate({

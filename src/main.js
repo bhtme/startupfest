@@ -30,8 +30,9 @@ export const store = {
 const coll = firestore.collection('startupScore');
 
 coll.onSnapshot((scoreRef) => {
-  const startups = {};
+  const startups = { allNames: [] };
   scoreRef.forEach((doc) => {
+    startups.allNames.push(doc.data().startupName);
     startups[doc.data().startupName] = doc.data().score;
     startups[doc.data().startupName].docId = doc.id;
     startups[doc.data().startupName].nAvals = doc.data().nAvals;

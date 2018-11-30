@@ -1,5 +1,5 @@
-query {
-  allStartups {
+query getStartup($name: String) {
+  Startups(name: $name) @client {
     name
     teamCount
     description

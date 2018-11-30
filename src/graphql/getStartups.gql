@@ -1,5 +1,5 @@
-query {
-  allStartups {
+query GetStartups {
+  Startups @client {
     name
     teamCount
     description

@@ -3,8 +3,7 @@
     <transition name="top-slide">
       <Navigation v-if="$route.name !== 'inicio' && scrollY < 30" v-bind:links="[
         { text: 'Startups', name:'startups' },
-        { text: 'Ranking', name:'ranking' },
-        { text: 'Favoritos', name:'favoritos' }
+        { text: 'Ranking', name:'ranking' }
       ]"></Navigation>
     </transition>
     <transition :name="transitionName"  mode="out-in">
@@ -16,6 +15,9 @@
 <script>
 import Navigation from './components/Navigation.vue';
 
+const QUERY_GETALLSTARTUPS = require('./graphql/getAllStartups.gql');
+const MUTATION_ADDSTARTUP = require('./graphql/addStartup.gql');
+
 export default {
   name: 'app',
   components: {
@@ -25,7 +27,34 @@ export default {
     return {
       transitionName: 'slide-left',
       scrollY: 0,
+      allStartups: null,
     };
+  },
+  apollo: {
+    allStartups: {
+      query: QUERY_GETALLSTARTUPS,
+      result({data, loading}) {
+        if(!loading) {
+          let startups = data.allStartups;
+          for(var i = 0, len = startups.length; i < len; i++) {
+            let startup = startups[i];
+            this.$apollo.mutate({
+              mutation: MUTATION_ADDSTARTUP,
+              variables: {
+                name: startup.name,
+                description: startup.description,
+                teamCount: startup.teamCount,
+                annualReceipt: startup.annualReceipt,
+                imageUrl: startup.imageUrl,
+                segmentName: startup.Segment.name,
+                segmentCode: startup.Segment.code
+              }
+              })
+              .catch((error) => { console.error(error); });
+          }
+        }
+      },
+    },
   },
   methods: {
     handleWindowScroll(ev) {

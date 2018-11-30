@@ -1,6 +1,0 @@
-query GetAllSegments {
-  allSegments{
-    code
-    name
-  }
-}

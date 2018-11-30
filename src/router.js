@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Inicio from './views/Inicio.vue';
 import Startups from './views/Startups.vue';
 import Ranking from './views/Ranking.vue';
-import Favoritos from './views/Favoritos.vue';
+import Startup from './views/Startup.vue';
 
 Vue.use(Router);
 
@@ -30,9 +30,9 @@ const router = new Router({
       meta: { order: 2 },
     },
     {
-      path: '/favoritos',
-      name: 'favoritos',
-      component: Favoritos,
+      path: '/startup/:startupName',
+      name: 'startup',
+      component: Startup,
       meta: { order: 3 },
     },
   ],

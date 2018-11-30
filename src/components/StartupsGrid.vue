@@ -1,15 +1,21 @@
 <template>
   <div id="startups-grid" key="grid">
-    <div v-for="(startup, index) in startups" :key="`${index}`">
+    <router-link v-for="(startup, index) in startups" class="startup"
+     :to="{ name: 'startup', params: { startupName: startup.name } }" :key="`${index}`">
       <div class="img">
         <img v-bind:src="startup.imageUrl" v-bind:alt="startup.name"/>
       </div>
       <span class="name">{{startup.name}}</span>
       <span class="segment">{{startup.Segment.name}}</span>
       <span class="score">
-        <StaticScore :score="[4, 3, 3, 5]" :title="'Avaliação Média'"></StaticScore>
+        <StaticScore :title="'Avaliação Média'"
+        :score="[
+        Scores[startup.name][0]/Scores[startup.name].nAvals,
+        Scores[startup.name][1]/Scores[startup.name].nAvals,
+        Scores[startup.name][2]/Scores[startup.name].nAvals
+        ]"></StaticScore>
       </span>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -20,6 +26,7 @@ export default {
   name: 'StartupsGrid',
   props: {
     startups: Array,
+    Scores: Object,
   },
   components: {
     StaticScore,
@@ -34,12 +41,14 @@ export default {
   grid-gap: 20px 20px;
   grid-template-columns: repeat(auto-fit, 290px);
   padding: 0 10px;
-  &>div {
+  .startup {
     border: 1px outset #666;
     padding: 6px;
     background: linear-gradient(60deg, transparent 18%, #fff4 46%, #fff4 54%, transparent 82%)
                 no-repeat, linear-gradient(180deg, $theme-color 32px, #fff 32px);
     background-position-x: -290px;
+    text-decoration: none;
+    color: #0f0f0f;
     box-shadow: #2226 2px 3px 3px;
     transition: background-position-x 1s;
     cursor: pointer;
@@ -48,7 +57,6 @@ export default {
     grid-template: "img name"
                    "img segment"
                    "img score"
-                   "more more"
                    auto / 120px auto;
     .img {
       grid-area: img;

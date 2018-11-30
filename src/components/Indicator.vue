@@ -1,6 +1,6 @@
 <template>
   <div class="indicator">
-    <div :class="['empty', [type === 'loading' ? 'filling':''], [type === 'error' ? 'broken':'']]">
+    <div :class="['empty', [type === 'loading' ? 'filling':'']]">
       <div class="img"></div>
       <div class="name"></div>
       <div class="segment"></div>

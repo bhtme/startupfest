@@ -1,0 +1,16 @@
+mutation addStartup($name: String, $description: String, $teamCount: Number,
+$annualReceipt: Number, $imageUrl: String, $segmentName: String, $segmentCode: String) {
+  addStartup(name: $name, description: $description, teamCount: $teamCount,
+  annualReceipt: $annualReceipt, imageUrl: $imageUrl, segmentName: $segmentName,
+  segmentCode: $segmentCode) @client {
+    name
+    description
+    imageUrl
+    teamCount
+    annualReceipt
+    Segment {
+      name
+      code
+    }
+  }
+}
